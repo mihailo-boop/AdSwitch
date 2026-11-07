@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdSwitch — SoundCloud замість реклами в Spotify</title>
+<meta name="description" content="AdSwitch для Windows: коли в Spotify грає реклама, вмикається твій плейліст SoundCloud, а потім плавно повертається Spotify.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://YOUR_USER.github.io/YOUR_REPO/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AdSwitch — SoundCloud замість реклами в Spotify">
+<meta property="og:description" content="Програма для Windows: коли в Spotify реклама, грає твій плейліст SoundCloud, потім плавно повертається Spotify.">
+<meta property="og:url" content="https://YOUR_USER.github.io/YOUR_REPO/">
+<meta property="og:locale" content="uk_UA">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AdSwitch","operatingSystem":"Windows 10, Windows 11","applicationCategory":"MultimediaApplication","description":"Коли в десктопному Spotify грає реклама, вмикається плейліст SoundCloud, а потім плавно повертається Spotify.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":"uk"}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%23ff5500%22/><path d=%22M38 28v44l36-22z%22 fill=%22white%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e4e9ec;--paper:#f3f6f8;--ink:#101820;--mute:#556574;--line:#bcc7cf;--sp:#1db954;--sc:#ff5500;--ad:#e11d48;--r:6px}
+@media (prefers-color-scheme:dark){:root{--bg:#0f161c;--paper:#162029;--ink:#e8eef2;--mute:#8b9ba8;--line:#2b3945}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "IBM Plex Sans",system-ui,sans-serif}
+a{color:inherit}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font:700 18px Unbounded,sans-serif;text-decoration:none}
+nav a{margin-left:20px;font-size:15px;color:var(--mute);text-decoration:none}
+nav a:hover{color:var(--ink)}
+h1{font:700 clamp(30px,5.4vw,52px)/1.08 Unbounded,sans-serif;margin:40px 0 18px;max-width:15em}
+h2{font:700 clamp(22px,3.2vw,30px)/1.2 Unbounded,sans-serif;margin:0 0 20px}
+.lead{font-size:20px;color:var(--mute);max-width:36em;margin:0 0 28px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:13px 22px;border:2px solid var(--ink);border-radius:var(--r);font-weight:600;text-decoration:none}
+.btn.main{background:var(--ink);color:var(--bg)}
+.btn:focus-visible,a:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid var(--sc);outline-offset:3px}
+.note{font-size:14px;color:var(--mute);margin:12px 0 0}
+/* демо */
+.demo{margin:44px 0 20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.demo-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+#state{font:500 16px Unbounded,sans-serif}
+.demo button{border:1px solid var(--line);background:transparent;color:var(--ink);padding:6px 14px;border-radius:var(--r);cursor:pointer;font:inherit;font-size:14px}
+.lanes{position:relative;padding-left:96px}
+.lane{position:relative;height:64px;margin-bottom:10px}
+.lane b{position:absolute;left:-96px;top:20px;font-size:14px;font-weight:600}
+.lane svg{width:100%;height:100%;display:block;background:var(--bg);border-radius:4px}
+.lane.sp path{fill:var(--sp)}.lane.sc path{fill:var(--sc)}
+.lane rect{fill:var(--ad);opacity:.16}
+#head{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);left:96px}
+.adlabel{position:absolute;top:-22px;font-size:12px;color:var(--ad);font-weight:600}
+/* секції */
+section{padding:56px 0;border-top:1px solid var(--line)}
+ol.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+ol.steps li{counter-increment:s;padding-top:14px;border-top:3px solid var(--ink)}
+ol.steps li::before{content:counter(s);font:700 15px Unbounded,sans-serif;display:block;margin-bottom:6px}
+ol.steps strong{display:block;margin-bottom:4px}
+dl{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:0 28px;margin:0}
+dt{font-weight:600;padding:14px 0;border-top:1px solid var(--line)}
+dd{margin:0;padding:14px 0;border-top:1px solid var(--line);color:var(--mute)}
+@media(max-width:640px){dl{grid-template-columns:1fr}dt{padding-bottom:0;border-top:1px solid var(--line)}dd{border-top:0;padding-top:4px}}
+.warn{border-left:6px solid var(--ad);background:var(--paper);padding:6px 22px 14px;border-radius:0 var(--r) var(--r) 0}
+.warn h3{font:500 16px Unbounded,sans-serif;margin:14px 0 4px}
+.warn p{margin:0 0 6px;color:var(--mute)}
+details{border-top:1px solid var(--line);padding:14px 0}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--mute);margin:10px 0 0}
+code{background:var(--paper);border:1px solid var(--line);padding:1px 6px;border-radius:4px;font-size:.9em}
+footer{border-top:1px solid var(--line);padding:30px 0 50px;color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <a class="logo" href="#">AdSwitch</a>
+  <nav><a href="#how">Як це працює</a><a href="#install">Встановлення</a><a href="#faq">Питання</a><a class="gh" href="#">GitHub</a></nav>
+</header>
+
+<main>
+<h1>Коли в Spotify реклама, грає твій SoundCloud</h1>
+<p class="lead">AdSwitch для Windows приглушує рекламу, вмикає твій плейліст зі SoundCloud, а коли реклама закінчилась, плавно повертає Spotify.</p>
+<div class="btns">
+  <a class="btn main dl" href="#">Завантажити для Windows</a>
+  <a class="btn gh" href="#">Код на GitHub</a>
+</div>
+<p class="note">Безкоштовно, для Windows 10 і 11. Неофіційний проєкт, не пов’язаний зі Spotify чи SoundCloud.</p>
+
+<div class="demo" aria-label="Схема роботи програми">
+  <div class="demo-top"><span id="state" role="status">Грає Spotify</span><button id="toggle" type="button">Пауза</button></div>
+  <div class="lanes">
+    <span class="adlabel" style="left:calc(96px + (100% - 96px) * .333)">реклама</span>
+    <div class="lane sp"><b>Spotify</b><svg viewBox="0 0 120 20" preserveAspectRatio="none"><rect x="40" y="0" width="40" height="20"/><path d="M0,20 L0,3 L40,3 L40,20 L80,20 L95,3 L120,3 L120,20Z"/></svg></div>
+    <div class="lane sc"><b>SoundCloud</b><svg viewBox="0 0 120 20" preserveAspectRatio="none"><rect x="40" y="0" width="40" height="20"/><path d="M0,20 L40,20 L55,3 L80,3 L95,20Z"/></svg></div>
+    <div id="head"></div>
+  </div>
+</div>
+
+<section id="how">
+  <h2>Як це працює</h2>
+  <ol class="steps">
+    <li><strong>Ти вставляєш плейліст</strong>Посилання на публічний плейліст SoundCloud, і все. Акаунти підключати не треба.</li>
+    <li><strong>Слухаєш Spotify як зазвичай</strong>Програма стежить за тим, що Windows показує про Spotify. Реклама підписана автором «Spotify».</li>
+    <li><strong>Реклама — і вмикається SoundCloud</strong>Звук Spotify стишується, твій плейліст плавно наростає. Далі все повертається назад.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Можливості</h2>
+  <dl>
+    <dt>Без Premium</dt><dd>Працює з безкоштовним акаунтом: керує звуком у Windows, а не через API Spotify.</dd>
+    <dt>Два режими повернення</dt><dd>Плавний перехід, або «доіграти пісню SoundCloud, а потім увімкнути Spotify».</dd>
+    <dt>У треї</dt><dd>Згортається біля годинника й може запускатися разом з Windows.</dd>
+    <dt>Налаштовувана</dt><dd>Якщо реклама у твоїй країні підписана інакше, слова для розпізнавання можна змінити.</dd>
+    <dt>Усе потрібне — всередині</dt><dd>Сама докачує <code>yt-dlp</code> і ставить <code>mpv</code> при першому запуску.</dd>
+  </dl>
+</section>
+
+<section id="install">
+  <h2>Встановлення</h2>
+  <ol class="steps">
+    <li><strong>Завантаж інсталятор</strong>Файл <code>AdSwitch-Setup.exe</code> зі сторінки випусків на GitHub.</li>
+    <li><strong>Запусти його</strong>Windows може показати «Windows захистила ваш ПК»: інсталятор не підписаний. Натисни «Докладніше» і «Все одно запустити».</li>
+    <li><strong>Встав плейліст і натисни «Запустити»</strong>Потрібен інтернет: при першому запуску докачуються <code>yt-dlp</code> і <code>mpv</code>.</li>
+  </ol>
+  <p class="note">Потрібні: Windows 10 або 11 із <code>winget</code>, десктопний Spotify, публічний плейліст SoundCloud.</p>
+</section>
+
+<section>
+  <h2>Перш ніж ставити</h2>
+  <div class="warn">
+    <h3>Це може суперечити правилам Spotify</h3>
+    <p>Програма приглушує рекламу й підміняє її іншою музикою. Умови Spotify обмежують обхід реклами, тож користуйся нею на власний ризик.</p>
+    <h3>SoundCloud — поза його плеєром</h3>
+    <p>Відтворення через <code>yt-dlp</code> не передбачене SoundCloud. Інколи сервіс змінює сайт, і програма потребує оновлення.</p>
+    <h3>Інсталятор без цифрового підпису</h3>
+    <p>Тому Windows і деякі антивіруси можуть попередити. Код відкритий, його можна перевірити й зібрати самому.</p>
+    <h3>Без гарантій</h3>
+    <p>Програма надається «як є». Автор не відповідає за можливі наслідки, зокрема за обмеження акаунтів.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <h2>Питання</h2>
+  <details><summary>Чи потрібен Spotify Premium?</summary><p>Ні. У Premium реклами немає, тож програма потрібна саме на безкоштовному акаунті.</p></details>
+  <details><summary>Програма не розпізнає рекламу</summary><p>Відкрий вкладку «Журнал»: там видно, що Windows повідомляє про Spotify. Додай ці слова у «Додатково» в поля «Автор реклами» або «Назва реклами».</p></details>
+  <details><summary>SoundCloud не грає</summary><p>Перевір, що плейліст публічний: він має відкриватись у режимі інкогніто без входу. Інколи допомагає почекати, поки оновиться <code>yt-dlp</code>.</p></details>
+  <details><summary>Працює на телефоні чи в браузері?</summary><p>Ні. Лише Windows і лише десктопна програма Spotify.</p></details>
+  <details><summary>Як оновити чи видалити?</summary><p>Запусти новий інсталятор поверх старого, налаштування збережуться. Видалити можна в «Параметри → Програми». Щоб прибрати ще й налаштування, видали теку <code>%APPDATA%\AdSwitch</code>.</p></details>
+</section>
+</main>
+
+<footer>AdSwitch — неофіційний проєкт з відкритим кодом. Spotify і SoundCloud є торговими марками своїх власників; з ними цей проєкт не пов’язаний.</footer>
+</div>
+
+<script>
+// Заміни на свій репозиторій, формат: "нік/назва-репозиторію"
+const REPO = "YOUR_USER/YOUR_REPO";
+if (!REPO.startsWith("YOUR_")) {
+  document.querySelectorAll(".gh").forEach(a => a.href = "https://github.com/" + REPO);
+  document.querySelectorAll(".dl").forEach(a => a.href = "https://github.com/" + REPO + "/releases/latest");
+}
+
+// Демонстрація переходів
+const T = 12, head = document.getElementById("head"), st = document.getElementById("state"), btn = document.getElementById("toggle");
+const lanes = document.querySelector(".lanes");
+const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let t = still ? 5 : 0, last = performance.now(), run = !still;
+function label(t) {
+  return t < 4 ? "Грає Spotify" : t < 8 ? "Реклама → грає SoundCloud" : t < 9.5 ? "Плавний перехід назад" : "Грає Spotify";
+}
+function draw() {
+  const w = lanes.clientWidth - 96;
+  head.style.left = (96 + w * t / T) + "px";
+  st.textContent = label(t);
+}
+function tick(now) {
+  if (run) { t = (t + (now - last) / 1000) % T; draw(); }
+  last = now; requestAnimationFrame(tick);
+}
+btn.onclick = () => { run = !run; btn.textContent = run ? "Пауза" : "Грати"; };
+if (still) { btn.hidden = true; draw(); } else { requestAnimationFrame(tick); }
+addEventListener("resize", draw);
+</script>
+</body>
+</html>
