@@ -13,6 +13,8 @@
 - Працює в треї, може запускатися разом з Windows.
 - Сам докачує `yt-dlp` і `mpv`, які потрібні для SoundCloud.
 
+## Більше можна дізнатися на https://mihailo-boop.github.io/AdSwitch/
+
 ## Встановлення
 
 1. Завантаж `AdSwitch-Setup.exe` з розділу [Releases](../../releases).
