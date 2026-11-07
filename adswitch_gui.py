@@ -4,7 +4,7 @@ import customtkinter as ctk
 
 APP, VERSION = "AdSwitch", "1.1.0"
 # Для автооновлень: URL файлу JSON вигляду {"version": "1.2.0", "url": "https://...AdSwitch-Setup.exe"}
-UPDATE_URL = ""
+UPDATE_URL = "https://raw.githubusercontent.com/mihailo-boop/AdSwitch/refs/heads/main/version.json"
 DATA = os.path.join(os.environ.get("APPDATA", os.path.expanduser("~")), APP)
 BIN, CFG = os.path.join(DATA, "bin"), os.path.join(DATA, "settings.json")
 PIPE = r"\\.\pipe\adswitch"
